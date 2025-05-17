@@ -4,15 +4,20 @@ import { usePosts } from "../hooks/usePosts";
 import { useDeletePost } from "../hooks/useDeletePost";
 import deleteIcon from "../assets/delete.svg";
 import editIcon from "../assets/edit.svg";
+import Modal from "../components/Modal";
 
 export default function Posts() {
   const { username } = useUser();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [postIdToDelete, setPostIdToDelete] = useState(null); // ID do post em análise para deletar
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
+  const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [postIdToEdit, setPostIdToEdit] = useState(null);
 
-  const { posts, isLoading, error, createPost } = usePosts();
+  const { posts, isLoading, error, createPost, updatePost } = usePosts();
   const deletePost = useDeletePost();
 
   const handleCreatePost = () => {
@@ -32,6 +37,22 @@ export default function Posts() {
       setShowDeleteModal(false);
     }
   };
+
+  const handleupdatePost = () => {
+    if (postIdToEdit) {
+    
+      updatePost.mutate({
+        id: postIdToEdit,
+        title: editTitle,
+        content: editContent,
+      });
+
+      setPostIdToEdit(null);
+      setShowEditModal(false);
+      setEditTitle("");
+      setEditContent("");
+    }
+  }
 
   if (isLoading) return <p>Loading posts...</p>;
   if (error) return <p>Erro ao carregar posts</p>;
@@ -73,7 +94,7 @@ export default function Posts() {
               className={`px-6 py-2 rounded text-white text-sm font-semibold ${!title.trim() || !content.trim()
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-[#7695EC] hover:bg-[#5b77c5]"
-              }`}
+                }`}
             >
               Create
             </button>
@@ -86,7 +107,7 @@ export default function Posts() {
             <div key={id} className="rounded-xl w-[752px] bg-white overflow-hidden">
               <div className="h-[70px] bg-[#7695EC] px-4 py-3 flex justify-between items-center text-white font-bold text-base">
                 <h3 className="text-[22px]">{title}</h3>
-                {postAuthor === username && (
+                {username === postAuthor && (
                   <div className="flex gap-3">
                     <button
                       onClick={() => {
@@ -97,7 +118,13 @@ export default function Posts() {
                     >
                       <img src={deleteIcon} alt="Delete" className="w-[31.2px] h-[30px] cursor-pointer" />
                     </button>
-                    <button className="hover:opacity-80">
+                    <button
+                      onClick={() => {
+                        setPostIdToEdit(id);
+                        { console.log("Post to edit:", { id, title, content }) };
+                        setShowEditModal(true);
+                      }}
+                      className="hover:opacity-80">
                       <img src={editIcon} alt="Edit" className="w-[31.2px] h-[30px] cursor-pointer" />
                     </button>
                   </div>
@@ -115,28 +142,41 @@ export default function Posts() {
           ))}
         </div>
 
-        {/* Delete Modal */}
-        {showDeleteModal && (
-          <div className="fixed inset-0 bg-[rgba(119,119,119,0.80)] flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-[400px]">
-              <h2 className="text-lg font-bold mb-4">Are you sure you want to delete this item?</h2>
-              <div className="flex justify-end gap-4">
-                <button
-                  onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 bg-white border border-gray-500 rounded text-gray-700 hover:bg-gray-100 cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleConfirmDelete}
-                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Modals */}
+        <Modal
+          isOpen={showEditModal}
+          title="Edit Post"
+          onClose={() => setShowEditModal(false)}
+          onConfirm={handleupdatePost}
+          confirmText="Save"
+        >
+          <label className="block text-base font-normal mb-1">Title</label>
+          <input
+            type="text"
+            value={editTitle}
+            onChange={(e) => setEditTitle(e.target.value)}
+            className="w-full border border-gray-400 px-3 py-2 rounded mb-4 text-sm"
+            placeholder="Hello world"
+          />
+
+          <label className="block text-base font-normal mb-1">Content</label>
+          <textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            className="w-full border border-gray-400 px-3 py-2 rounded mb-4 text-sm resize-none h-[80px]"
+            placeholder="Content here"
+          />
+        </Modal>
+
+        <Modal
+          isOpen={showDeleteModal}
+          title="Are you sure you want to delete this item?"
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleConfirmDelete}
+          confirmText="Delete"
+          confirmColor="red"
+        />
+
 
       </div>
     </div>

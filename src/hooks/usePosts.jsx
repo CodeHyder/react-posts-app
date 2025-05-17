@@ -24,10 +24,21 @@ export function usePosts() {
     },
   });
 
+  const updatePost = useMutation({
+    mutationFn: ({ id, title, content }) => {
+      console.log("updatePost", { id, title, content });
+      return axios.patch(`${API_URL}${id}/`, { title, content });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
   return {
     posts: data,
     isLoading,
     error,
     createPost,
+    updatePost,
   };
 }
