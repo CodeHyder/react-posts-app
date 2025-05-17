@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import { usePosts } from "../hooks/usePosts";
 import { useDeletePost } from "../hooks/useDeletePost";
-import PostCard from "../components/PostCard";
 import Modal from "../components/Modal";
 import Header from "../components/Header";
+import PostList from "../components/PostList";
 
 export default function Posts() {
   const { username } = useUser();
@@ -65,7 +65,7 @@ export default function Posts() {
   return (
     <div className="flex justify-center bg-gray-100 min-h-screen">
       <div className="w-[800px] bg-white flex flex-col items-center">
- 
+
         <Header />
 
         {/* Form */}
@@ -104,23 +104,18 @@ export default function Posts() {
         </div>
 
         {/* Posts */}
-        <div className="mt-6 space-y-6">
-          {posts?.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              currentUser={username}
-              onEdit={(id) => {
-                setPostIdToEdit(id);
-                setShowEditModal(true);
-              }}
-              onDelete={(id) => {
-                setPostIdToDelete(id);
-                setShowDeleteModal(true);
-              }}
-            />
-          ))}
-        </div>
+        <PostList
+          posts={posts}
+          currentUser={username}
+          onEditPost={(id) => {
+            setPostIdToEdit(id);
+            setShowEditModal(true);
+          }}
+          onDeletePost={(id) => {
+            setPostIdToDelete(id);
+            setShowDeleteModal(true);
+          }}
+        />
 
         {/* Modals */}
         <Modal
