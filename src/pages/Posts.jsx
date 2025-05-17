@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import { usePosts } from "../hooks/usePosts";
 import { useDeletePost } from "../hooks/useDeletePost";
-import deleteIcon from "../assets/delete.svg";
-import editIcon from "../assets/edit.svg";
+import PostCard from "../components/PostCard";
 import Modal from "../components/Modal";
+import Header from "../components/Header";
 
 export default function Posts() {
   const { username } = useUser();
@@ -40,11 +40,16 @@ export default function Posts() {
 
   const handleupdatePost = () => {
     if (postIdToEdit) {
-    
+      const originalPost = posts.find((post) => post.id === postIdToEdit);
+      if (!originalPost) return;
+
+      const titleToSend = editTitle.trim() === "" ? originalPost.title : editTitle;
+      const contentToSend = editContent.trim() === "" ? originalPost.content : editContent;
+
       updatePost.mutate({
         id: postIdToEdit,
-        title: editTitle,
-        content: editContent,
+        title: titleToSend,
+        content: contentToSend,
       });
 
       setPostIdToEdit(null);
@@ -60,11 +65,8 @@ export default function Posts() {
   return (
     <div className="flex justify-center bg-gray-100 min-h-screen">
       <div className="w-[800px] bg-white flex flex-col items-center">
-
-        {/* Header */}
-        <div className="bg-[#7695EC] h-[80px] w-full flex items-center px-6 text-white text-2xl font-bold">
-          CodeLeap Network
-        </div>
+ 
+        <Header />
 
         {/* Form */}
         <div className="p-6 mt-6 rounded w-[752px] border border-gray-500 bg-white rounded-xl">
@@ -103,42 +105,20 @@ export default function Posts() {
 
         {/* Posts */}
         <div className="mt-6 space-y-6">
-          {posts?.map(({ id, username: postAuthor, title, content, created_datetime }) => (
-            <div key={id} className="rounded-xl w-[752px] bg-white overflow-hidden">
-              <div className="h-[70px] bg-[#7695EC] px-4 py-3 flex justify-between items-center text-white font-bold text-base">
-                <h3 className="text-[22px]">{title}</h3>
-                {username === postAuthor && (
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => {
-                        setPostIdToDelete(id);
-                        setShowDeleteModal(true);
-                      }}
-                      className="hover:opacity-80"
-                    >
-                      <img src={deleteIcon} alt="Delete" className="w-[31.2px] h-[30px] cursor-pointer" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setPostIdToEdit(id);
-                        { console.log("Post to edit:", { id, title, content }) };
-                        setShowEditModal(true);
-                      }}
-                      className="hover:opacity-80">
-                      <img src={editIcon} alt="Edit" className="w-[31.2px] h-[30px] cursor-pointer" />
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div className="p-4 border border-gray-500 rounded-bl-xl rounded-br-xl">
-                <div className="flex justify-between text-sm text-gray-500 mb-3">
-                  <span className="text-[#777] font-roboto text-[18px] font-bold">@{postAuthor}</span>
-                  <span>{new Date(created_datetime).toLocaleString()}</span>
-                </div>
-                <p className="text-sm text-[18px] whitespace-normal break-words">{content}</p>
-              </div>
-            </div>
+          {posts?.map((post) => (
+            <PostCard
+              key={post.id}
+              post={post}
+              currentUser={username}
+              onEdit={(id) => {
+                setPostIdToEdit(id);
+                setShowEditModal(true);
+              }}
+              onDelete={(id) => {
+                setPostIdToDelete(id);
+                setShowDeleteModal(true);
+              }}
+            />
           ))}
         </div>
 

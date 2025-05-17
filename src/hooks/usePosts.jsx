@@ -22,6 +22,9 @@ export function usePosts() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
+    onError: (error) => {
+    console.error("Erro ao criar post:", error); 
+  },
   });
 
   const updatePost = useMutation({
@@ -32,6 +35,9 @@ export function usePosts() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
+    onError: (error) => {
+    console.error("Erro ao atualizar post:", error); 
+  },
   });
 
   return {
