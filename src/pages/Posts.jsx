@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
-import { usePosts } from "../hooks/usePosts"; 
+import { usePosts } from "../hooks/usePosts";
 import Modal from "../components/Modal";
 import Header from "../components/Header";
 import PostList from "../components/PostList";
+import PostForm from "../components/PostForm";
 
 export default function Posts() {
   const { username } = useUser();
@@ -16,8 +17,7 @@ export default function Posts() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [postIdToEdit, setPostIdToEdit] = useState(null);
 
-  const { posts, isLoading, error, createPost, updatePost, deletePost  } = usePosts();
-  // const deletePost = useDeletePost();
+  const { posts, isLoading, error, createPost, updatePost, deletePost } = usePosts();
 
   const handleCreatePost = () => {
     if (!title.trim() || !content.trim()) {
@@ -70,24 +70,12 @@ export default function Posts() {
         {/* Form */}
         <div className="p-6 mt-6 rounded w-[752px] border border-gray-500 bg-white rounded-xl">
           <h2 className="text-xl font-bold mb-4">What’s on your mind?</h2>
-
-          <label className="block text-base font-normal mb-1">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-400 px-3 py-2 rounded mb-4 text-sm"
-            placeholder="Hello world"
+          <PostForm
+            title={title}
+            content={content}
+            setTitle={setTitle}
+            setContent={setContent}
           />
-
-          <label className="block text-base font-normal mb-1">Content</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full border border-gray-400 px-3 py-2 rounded mb-4 text-sm resize-none h-[80px]"
-            placeholder="Content here"
-          />
-
           <div className="flex justify-end">
             <button
               onClick={handleCreatePost}
@@ -124,21 +112,11 @@ export default function Posts() {
           onConfirm={handleupdatePost}
           confirmText="Save"
         >
-          <label className="block text-base font-normal mb-1">Title</label>
-          <input
-            type="text"
-            value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-            className="w-full border border-gray-400 px-3 py-2 rounded mb-4 text-sm"
-            placeholder="Hello world"
-          />
-
-          <label className="block text-base font-normal mb-1">Content</label>
-          <textarea
-            value={editContent}
-            onChange={(e) => setEditContent(e.target.value)}
-            className="w-full border border-gray-400 px-3 py-2 rounded mb-4 text-sm resize-none h-[80px]"
-            placeholder="Content here"
+          <PostForm
+            title={editTitle}
+            content={editContent}
+            setTitle={setEditTitle}
+            setContent={setEditContent}
           />
         </Modal>
 
