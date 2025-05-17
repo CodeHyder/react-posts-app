@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
-import { usePosts } from "../hooks/usePosts";
-import { useDeletePost } from "../hooks/useDeletePost";
+import { usePosts } from "../hooks/usePosts"; 
 import Modal from "../components/Modal";
 import Header from "../components/Header";
 import PostList from "../components/PostList";
@@ -17,8 +16,8 @@ export default function Posts() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [postIdToEdit, setPostIdToEdit] = useState(null);
 
-  const { posts, isLoading, error, createPost, updatePost } = usePosts();
-  const deletePost = useDeletePost();
+  const { posts, isLoading, error, createPost, updatePost, deletePost  } = usePosts();
+  // const deletePost = useDeletePost();
 
   const handleCreatePost = () => {
     if (!title.trim() || !content.trim()) {
