@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5173/";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const fetchPosts = async () => {
   const response = await axios.get(API_URL);
