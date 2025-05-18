@@ -1,8 +1,8 @@
 # CodeLeap Network - Frontend
 
-Frontend do desafio técnico proposto pela CodeLeap, desenvolvido com **React** + **TailwindCSS**.
-A aplicação permite que usuários publiquem, editem e excluam posts de forma simples e responsiva.
-Esta aplicação consome a [API Python-Challenge](https://python-challenge-8guz.onrender.com), também desenvolvida por mim e o código pode ser encontrado [nesse repositorio.](https://github.com/CodeHyder/Python-Challenge)
+Frontend do desafio técnico proposto pela CodeLeap, desenvolvido com **React** + **TailwindCSS**.\
+A aplicação permite que usuários publiquem, editem e excluam posts de forma simples e responsiva.\
+Esta aplicação consome a [API Python-Challenge](https://python-challenge-8guz.onrender.com), também desenvolvida por mim e o código pode ser encontrado [nesse repositorio.](https://github.com/CodeHyder/Python-Challenge)\
 Você pode conferir o deploy da aplicação [nesse link](react-posts-app-dun.vercel.app)
 
 ---
