@@ -1,6 +1,7 @@
 // src/pages/Login.jsx
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
+import Button from "../components/Button";
 
 function Login() {
   const [input, setInput] = useState("");
@@ -31,15 +32,13 @@ function Login() {
             placeholder="John doe"
           />
           <div className="flex justify-end">
-            <button
+            <Button
               onClick={handleEnter}
               disabled={!input.trim()}
-              className={`w-[111px] h-[32px] rounded-[8px] font-medium text-white
-        ${input.trim() ? "bg-[#7695EC] hover:bg-[#5e7cd9]" : "bg-gray-400 cursor-not-allowed"}
-      `}
+              className="w-[111px]"  
             >
               ENTER
-            </button>
+            </Button>
           </div>
         </div>
       </div>

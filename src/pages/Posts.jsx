@@ -5,6 +5,7 @@ import Modal from "../components/Modal";
 import Header from "../components/Header";
 import PostList from "../components/PostList";
 import PostForm from "../components/PostForm";
+import Button from "../components/Button";
 
 export default function Posts() {
   const { username } = useUser();
@@ -77,16 +78,15 @@ export default function Posts() {
             setContent={setContent}
           />
           <div className="flex justify-end">
-            <button
+
+            <Button
               onClick={handleCreatePost}
               disabled={!title.trim() || !content.trim()}
-              className={`px-6 py-2 rounded text-white text-sm font-semibold ${!title.trim() || !content.trim()
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#7695EC] hover:bg-[#5b77c5]"
-                }`}
+              className="w-[120px]"  
             >
               Create
-            </button>
+            </Button>
+
           </div>
         </div>
 
@@ -128,7 +128,6 @@ export default function Posts() {
           confirmText="Delete"
           confirmColor="red"
         />
-
 
       </div>
     </div>

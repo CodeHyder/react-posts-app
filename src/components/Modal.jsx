@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 export default function Modal({
   isOpen,
   title,
@@ -23,19 +25,24 @@ export default function Modal({
         {children}
 
         <div className="flex justify-end gap-4 mt-4">
-          <button
+
+          <Button
             onClick={onClose}
-            className="flex items-center justify-center px-4 py-2 bg-white border border-gray-500 rounded text-gray-700 hover:bg-gray-100 cursor-pointer w-[120px] h-[32px]"
+            variant="cancel"
+            size="fixed"
+            className="rounded-[8px]"
           >
             {cancelText}
-          </button>
+          </Button>
           {onConfirm && (
-            <button
+            <Button
               onClick={onConfirm}
-              className={`flex items-center justify-center px-4 py-2 text-white rounded cursor-pointer w-[120px] h-[32px] ${confirmBtnStyle}`}
+              variant={confirmColor === "red" ? "danger" : "success"}
+              size="fixed"
+              className="rounded-[8px]"
             >
               {confirmText}
-            </button>
+            </Button>
           )}
         </div>
       </div>
