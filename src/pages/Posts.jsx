@@ -8,7 +8,7 @@ import PostForm from "../components/PostForm";
 import Button from "../components/Button";
 
 export default function Posts() {
-  const { username } = useUser();
+  const { username, logout } = useUser();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -82,7 +82,7 @@ export default function Posts() {
             <Button
               onClick={handleCreatePost}
               disabled={!title.trim() || !content.trim()}
-              className="w-[120px]"  
+              className="w-[120px]"
             >
               Create
             </Button>

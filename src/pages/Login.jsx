@@ -1,18 +1,14 @@
-// src/pages/Login.jsx
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import Button from "../components/Button";
 
 function Login() {
+  const { login } = useUser();
   const [input, setInput] = useState("");
-  const { setUsername } = useUser();
 
   const handleEnter = () => {
-    const trimmedInput = input.trim();
-    if (trimmedInput) {
-      setUsername(trimmedInput);
-      localStorage.setItem("username", trimmedInput);
-    }
+    if (!input.trim()) return;
+    login(input.trim());
   };
 
   return (

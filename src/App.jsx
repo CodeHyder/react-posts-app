@@ -1,10 +1,9 @@
-// src/App.jsx
 import { useUser } from "./context/UserContext";
 import Login from "./pages/Login";
 import Posts from "./pages/Posts";
 
 function App() {
-  const { username } = useUser();
+  const { username, logout  } = useUser(); 
 
   return (
     <>
