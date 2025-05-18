@@ -69,7 +69,7 @@ export default function Posts() {
         <Header />
 
         {/* Form */}
-        <div className="p-6 mt-6 rounded w-[752px] border border-gray-500 bg-white rounded-xl">
+        <div className="p-6 mt-6 rounded w-full max-w-[752px] mx-auto border border-gray-500 bg-white rounded-xl">
           <h2 className="text-xl font-bold mb-4">What’s on your mind?</h2>
           <PostForm
             title={title}

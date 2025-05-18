@@ -5,7 +5,7 @@ export default function PostCard({ post, currentUser, onEdit, onDelete }) {
   const { id, username, title, content, created_datetime } = post;
 
   return (
-    <div className="rounded-xl w-[752px] bg-white overflow-hidden">
+    <div className="rounded-xl w-full max-w-[752px] mx-auto bg-white overflow-hidden">
       <div className="h-[70px] bg-[#7695EC] px-4 py-3 flex justify-between items-center text-white font-bold text-base">
         <h3 className="text-[22px]">{title}</h3>
         {currentUser === username && (
