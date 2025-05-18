@@ -1,5 +1,6 @@
 import deleteIcon from "../assets/delete.svg";
 import editIcon from "../assets/edit.svg";
+import { formatDistanceToNow } from "date-fns";
 
 export default function PostCard({ post, currentUser, onEdit, onDelete }) {
   const { id, username, title, content, created_datetime } = post;
@@ -23,7 +24,7 @@ export default function PostCard({ post, currentUser, onEdit, onDelete }) {
       <div className="p-4 border border-gray-500 rounded-bl-xl rounded-br-xl">
         <div className="flex justify-between text-sm text-gray-500 mb-3">
           <span className="text-[#777] font-roboto text-[18px] font-bold">@{username}</span>
-          <span>{new Date(created_datetime).toLocaleString()}</span>
+          <span className="text-lg">{formatDistanceToNow(new Date(created_datetime), { addSuffix: true })}</span>
         </div>
         <p className="text-sm text-[18px] whitespace-normal break-words">{content}</p>
       </div>
